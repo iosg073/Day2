@@ -23,3 +23,6 @@ button:disabled {
   color: #ccc;
   cursor: auto;
 }
+.input-error {
+  color: red;
+}

@@ -1,10 +1,24 @@
-<div *ngIf="hero">
+<form (ngSubmit)="save()" [formGroup]="heroForm">
+
   <h2>{{hero.name | uppercase}} Details</h2>
   <div><span>id: </span>{{hero.id}}</div>
   <div>
-    <label for="hero-name">Hero name: </label>
-    <input id="hero-name" [(ngModel)]="hero.name" placeholder="Hero name"/>
+    <label for="hero-name">Hero name: 
+    <input placeholder="name" formcontrolname="name">
+  </label>
+  <div *ngIf="name.invalid && (name.dirty || name.touched || heroForm.submitted)"
+   class="input-error">
+   
+    <div *ngIf="name.errors.required">Name is required</div>
+    <div *ngIf="name.errors.minlength">Name must be at least 3 characters</div>
+    <div *ngIf="name.errors.forbiddenName">
+      Definitely cannot be named 'bob'.
+    </div>
   </div>
-  <button (click)="goBack()">go back</button>
-  <button (click)="save()">save</button>
-</div>
+
+  </div>
+  <button type="button" (click)="goBack()">go back</button>
+  <button type="button" (click)="getHero()">reset</button>
+  <button type="submit">save</button>
+</form>
+

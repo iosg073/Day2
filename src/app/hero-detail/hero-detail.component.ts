@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-hero-detail',
@@ -11,7 +12,9 @@ import { HeroService } from '../hero.service';
   styleUrls: [ './hero-detail.component.css' ]
 })
 export class HeroDetailComponent implements OnInit {
-  hero: Hero;
+ 
+  @Input() hero: Hero = { name: '' } as Hero;
+  heroForm: FormGroup   = new FormGroup({});
 
   constructor(
     private route: ActivatedRoute,
@@ -25,8 +28,11 @@ export class HeroDetailComponent implements OnInit {
 
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
+    if(id>0){
+       /* Do not subscribe if there is no number provided */
     this.heroService.getHero(id)
       .subscribe(hero => this.hero = hero);
+    }
   }
 
   goBack(): void {
@@ -34,7 +40,14 @@ export class HeroDetailComponent implements OnInit {
   }
 
   save(): void {
+    if (this.hero.id > 0) {
     this.heroService.updateHero(this.hero)
       .subscribe(() => this.goBack());
+    }
+    else {
+      this.heroService.addHero(this.hero)
+      .subscribe(() => this.goBack());
+
+    }
   }
 }
