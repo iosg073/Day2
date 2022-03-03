@@ -26,7 +26,7 @@ export class HeroDetailComponent implements OnInit {
       Validators.required,
       Validators.minLength(3),
       Validators.maxLength(10),
-      forbiddenNameValidator(/alam/i)
+      forbiddenNameValidator(/alam/)
 
      
 
